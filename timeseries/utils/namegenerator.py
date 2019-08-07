@@ -9,5 +9,5 @@ class NameGenerator(object):
         self._VARIABLE_COUNT += 1
         return output
 
-    def reset():
+    def reset(self):
         self._VARIABLE_COUNT = 0

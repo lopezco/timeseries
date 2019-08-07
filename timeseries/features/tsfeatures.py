@@ -4,7 +4,6 @@ import statsmodels.api as sm
 
 from statsmodels.formula.api import ols
 from scipy.stats import gaussian_kde
-from scipy.stats import norm
 from scipy.stats import boxcox_normmax
 from statsmodels.sandbox.gam import AdditiveModel
 
@@ -14,7 +13,7 @@ from timeseries.utils.misc import run_length_encoding, arg_longest_not_null
 __all__ = ["trim", "first_order_autocorrelation", "lumpiness",
     "rolling_level_shift", "rolling_variance_change", "n_crossing_points",
     "flat_spots", "trend_seasonality_spike_strength", "kullback_leibler_score",
-    "boxcox_optimal_lambda",  "entropy"]
+    "boxcox_optimal_lambda",  "entropy", "ENTROPY_PACKAGE_AVAILABLE"]
 
 try:
     from entropy import spectral_entropy
@@ -233,10 +232,13 @@ def entropy(x, freq=1, normalize=False):
     """
     Spectral Entropy
     """
-    try:
-        start, stop = arg_longest_not_null(x)
-        result = spectral_entropy(x[start:stop], sf=freq, method='welch', normalize=normalize)
-    except Exception:
-        result = np.nan
-    finally:
-        return result
+    if ENTROPY_PACKAGE_AVAILABLE:
+        try:
+            start, stop = arg_longest_not_null(x)
+            result = spectral_entropy(x[start:stop], sf=freq, method='welch', normalize=normalize)
+        except Exception:
+            result = np.nan
+        finally:
+            return result
+    else:
+        raise ImportError('entropy package not found')

@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from scipy.stats import norm
 
 from timeseries.utils import NameGenerator
 from .tsfeatures import *
@@ -9,7 +10,7 @@ _name_generator = NameGenerator()
 
 def compute_tsfeatures(x, **kwargs):
     """See `ts_features_series` doc"""
-    global name_generator
+    global _name_generator
 
     if isinstance(x, pd.Series):
         features_df = compute_tsfeatures_for_series(x, **kwargs)
@@ -98,4 +99,7 @@ def compute_tsfeatures_for_series(x, freq=1, normalize=True, width=None, window=
     features_df = pd.Series(features).to_frame().transpose()
     features_df.index = [x.index.min()] if isinstance(x, pd.Series) else [0]
     features_df['variable'] = name if name is not None else _name_generator.get()
+    # Reset index
+    idx_vars = [features_df.index.name or "index", 'variable']
+    features_df = features_df.reset_index().set_index(idx_vars)
     return features_df

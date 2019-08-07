@@ -23,6 +23,8 @@ Source: [robjhyndman/anomalous](https://github.com/robjhyndman/anomalous) R pack
 Generate data:
 
 ```python
+import pandas as pd
+import numpy as np
 # Create synthetic data
 index = pd.date_range(start='2000', periods=100, freq="D")
 b = []
@@ -38,10 +40,7 @@ Using a function to compute the time-series features:
 ```python
 from timeseries.features import compute_tsfeatures
 # Get features
-y = compute_tsfeatures(df, freq=30)
-# Show features in principal components
-idx_name = y.index.name or "index"
-y = y.reset_index().set_index([idx_name, 'variable'])
+features_df = compute_tsfeatures(df, freq=30)
 ```
 
 There is also a scikit-learn compatible Transformer. Here is an example:
@@ -51,12 +50,9 @@ from timeseries.features import TsFeaturesTransformer
 # Create instance of the Transformer
 transformer = TsFeaturesTransformer(freq=30)
 # Get features
-y = transformer.fit_transform(df)
-# Show features in principal components
-idx_name = y.index.name or "index"
-y = y.reset_index().set_index([idx_name, 'variable'])
+features_df = transformer.fit_transform(df)
 ```
 
 ## TO DO:  
-1. Test functionalities
+1. Test precision with real data
 2. Add examples for plot functions
