@@ -20,33 +20,43 @@ Source: [robjhyndman/anomalous](https://github.com/robjhyndman/anomalous) R pack
 
 ## Simple Example
 
-```python
-import pandas as pd
-import numpy as np
-from timeseries.features import ts_features
+Generate data:
 
+```python
 # Create synthetic data
 index = pd.date_range(start='2000', periods=100, freq="D")
 b = []
 for i in range(100):
     b.append(pd.Series(np.random.rand(100), index=index, name="var_{}".format(i)))
 df = pd.concat(b, axis=1)
-
 # Show data sample
 df[df.columns[:2]].plot()
+```
 
+Using a function to compute the time-series features:
+
+```python
+from timeseries.features import compute_tsfeatures
 # Get features
-y = ts_features(df, freq=30)
-
+y = compute_tsfeatures(df, freq=30)
 # Show features in principal components
 idx_name = y.index.name or "index"
 y = y.reset_index().set_index([idx_name, 'variable'])
+```
 
+There is also a scikit-learn compatible Transformer. Here is an example:
+
+```python
+from timeseries.features import TsFeaturesTransformer
+# Create instance of the Transformer
+transformer = TsFeaturesTransformer(freq=30)
+# Get features
+y = transformer.fit_transform(df)
+# Show features in principal components
+idx_name = y.index.name or "index"
+y = y.reset_index().set_index([idx_name, 'variable'])
 ```
 
 ## TO DO:  
 1. Test functionalities
-2. Write examples
-3. Update README
-4. Add plot functions
-5. Add random data generators
+2. Add examples for plot functions

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Poly(object):
+class OrthogonalPolynomialRegressor(object):
     """ Orthogonal polynomials
 
     Source:
