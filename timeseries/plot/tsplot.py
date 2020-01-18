@@ -4,10 +4,10 @@ import statsmodels.tsa.api as smt
 
 
 def ts_plot(y, lags=None, title='', figsize=(14, 8)):
-    '''Examine the patterns of ACF and PACF, along with the time series plot and histogram.
+    """Examine the patterns of ACF and PACF, along with the time series plot and histogram.
 
     Original source: https://tomaugspurger.github.io/modern-7-timeseries.html
-    '''
+    """
     fig = plt.figure(figsize=figsize)
     layout = (2, 2)
     ts_ax   = plt.subplot2grid(layout, (0, 0))

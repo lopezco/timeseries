@@ -46,9 +46,9 @@ features_df = compute_tsfeatures(df, freq=30)
 There is also a scikit-learn compatible Transformer. Here is an example:
 
 ```python
-from timeseries.features import TsFeaturesTransformer
+from timeseries.features import TsFeatures
 # Create instance of the Transformer
-transformer = TsFeaturesTransformer(freq=30)
+transformer = TsFeatures(freq=30)
 # Get features
 features_df = transformer.fit_transform(df)
 ```

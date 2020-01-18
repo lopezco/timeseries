@@ -1,2 +1,2 @@
 from .compute import compute_tsfeatures
-from .transformer import TsFeaturesTransformer
+from .transformer import TsFeatures
